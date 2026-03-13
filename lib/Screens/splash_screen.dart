@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [AppColors.primary, AppColors.secondary],
+                  colors: [AppColors.primary, AppColors.primary],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -44,16 +44,16 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.psychology, // Brain/Mind related icon
-                size: 90,
-                color: Colors.white,
+              child: Image.asset(
+                'assets/images/icon.png',
+                width: 90,
+                height: 90,
               ),
             ),
             const SizedBox(height: 30),
             // App Name
             const Text(
-              'Mindo Quize',
+              'Mindo Quiz',
               style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,

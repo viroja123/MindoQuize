@@ -1,8 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:mindo_quize/config/app.color.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
+  Future<void> _openPrivacyPolicy() async {
+    final Uri url = Uri.parse(
+      'https://sites.google.com/view/mindoquizprivacypolicy/home',
+    );
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> _rateApp() async {
+    final Uri url = Uri.parse(
+      'https://play.google.com/store/apps/details?id=com.mindoquize.app.mindo_quize',
+    );
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void _shareApp() {
+    Share.share(
+      'Check out this amazing quiz app!\n\nhttps://play.google.com/store/apps/details?id=com.mindoquize.app.mindo_quize',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +59,7 @@ class SettingsScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [AppColors.primary, AppColors.secondary],
+                          colors: [AppColors.primary, AppColors.primary],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -45,15 +72,15 @@ class SettingsScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.psychology,
-                        size: 60,
-                        color: Colors.white,
+                      child: Image.asset(
+                        'assets/images/icon.png',
+                        width: 90,
+                        height: 90,
                       ),
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Mindo Quize',
+                      'Mindo Quiz',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -100,21 +127,25 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    _buildActionTile(Icons.privacy_tip, 'Privacy Policy'),
+                    _buildActionTile(
+                      Icons.privacy_tip,
+                      'Privacy Policy',
+                      _openPrivacyPolicy,
+                    ),
                     const Divider(
                       height: 1,
                       indent: 60,
                       endIndent: 20,
                       color: Color(0xFFF3F4F6),
                     ),
-                    _buildActionTile(Icons.star, 'Rate App'),
+                    _buildActionTile(Icons.star, 'Rate App', _rateApp),
                     const Divider(
                       height: 1,
                       indent: 60,
                       endIndent: 20,
                       color: Color(0xFFF3F4F6),
                     ),
-                    _buildActionTile(Icons.share, 'Share App'),
+                    _buildActionTile(Icons.share, 'Share App', _shareApp),
                   ],
                 ),
               ),
@@ -151,9 +182,9 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionTile(IconData icon, String title) {
+  Widget _buildActionTile(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
-      onTap: () {},
+      onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       title: Text(
